@@ -24,7 +24,7 @@
       const subject = document.getElementById("subject").value;
       const message_text = document.getElementById("message_text").value;
 
-      if (!sender || !recipient || !subject || !message_text) {
+      if ( !recipient || !subject || !message_text) {
         alert("All fields are required!");
         return;
       }
