@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Email</title>
+</head>
+<body>
+  <h1>Send Email</h1>
+  <form id="email-form">
+    <label>Sender: <input type="email" id="sender" required></label><br>
+    <label>Recipient: <input type="email" id="recipient" required></label><br>
+    <label>Subject: <input type="text" id="subject" required></label><br>
+    <label>Message: <textarea id="message_text" required></textarea></label><br>
+    <button type="submit">Send Email</button>
+  </form>
+
+  <script>
+    document.getElementById("email-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const sender = document.getElementById("sender").value;
+      const recipient = document.getElementById("recipient").value;
+      const subject = document.getElementById("subject").value;
+      const message_text = document.getElementById("message_text").value;
+
+      if (!sender || !recipient || !subject || !message_text) {
+        alert("All fields are required!");
+        return;
+      }
+
+      const emailRequest = { sender, recipient, subject, message_text };
+
+      const backendUrl =  "https://arunsp03.pythonanywhere.com";
+
+      try {
+        const response = await fetch(`${backendUrl}/api/v1/sendmail`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(emailRequest),
+        });
+
+        const responseData = await response.json();
+        console.log("Response Data:", responseData);
+
+        if (response.status === 302) {
+          console.log("Redirecting for authorization...");
+          window.location.href = responseData.authorization_url; // Redirect to OAuth URL for user to authorize
+        } else if (response.ok) {
+          alert("Email sent successfully! Message ID: " + responseData.message_id);
+        } else {
+          alert("Error: " + responseData.detail);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Failed to send email.");
+      }
+    });
+  </script>
+</body>
+</html>     
