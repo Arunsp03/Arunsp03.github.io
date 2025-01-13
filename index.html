@@ -8,7 +8,7 @@
 <body>
   <h1>Send Email</h1>
   <form id="email-form">
-    <label>Sender: <input type="email" id="sender" required></label><br>
+    
     <label>Recipient: <input type="email" id="recipient" required></label><br>
     <label>Subject: <input type="text" id="subject" required></label><br>
     <label>Message: <textarea id="message_text" required></textarea></label><br>
@@ -19,7 +19,7 @@
     document.getElementById("email-form").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const sender = document.getElementById("sender").value;
+      
       const recipient = document.getElementById("recipient").value;
       const subject = document.getElementById("subject").value;
       const message_text = document.getElementById("message_text").value;
@@ -29,7 +29,7 @@
         return;
       }
 
-      const emailRequest = {sender,recipient, subject, message_text };
+      const emailRequest = {recipient, subject, message_text };
 
       const backendUrl =  "https://arunsp03.pythonanywhere.com";
 
