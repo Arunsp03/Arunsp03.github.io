@@ -20,16 +20,16 @@
       e.preventDefault();
 
       
-      const recipient = document.getElementById("recipient").value;
-      const subject = document.getElementById("subject").value;
-      const message_text = document.getElementById("message_text").value;
+      const email = document.getElementById("recipient").value;
+      const name = document.getElementById("subject").value;
+      const comment = document.getElementById("message_text").value;
 
-      if ( !recipient || !subject || !message_text) {
+      if ( !email || !name || !comment) {
         alert("All fields are required!");
         return;
       }
 
-      const emailRequest = {recipient, subject, message_text };
+      const emailRequest = {email, name, comment };
 
       const backendUrl =  "https://arunsp03.pythonanywhere.com";
 
