@@ -46,9 +46,9 @@
     document.getElementById("email-form").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const email = document.getElementById("recipient").value;
-      const name = document.getElementById("subject").value;
-      const comment = document.getElementById("message_text").value;
+      const email = document.getElementById("email").value;
+      const name = document.getElementById("name").value;
+      const comment = document.getElementById("comment").value;
 
       if (!email || !name || !comment) {
         alert("All fields are required!");
