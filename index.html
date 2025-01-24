@@ -8,7 +8,6 @@
 <body>
   <h1>Send Email</h1>
   <form id="email-form">
-    
     <label>Recipient: <input type="email" id="recipient" required></label><br>
     <label>Subject: <input type="text" id="subject" required></label><br>
     <label>Message: <textarea id="message_text" required></textarea></label><br>
@@ -16,27 +15,58 @@
   </form>
 
   <script>
+    const backendUrl = "https://arunsp03.pythonanywhere.com";
+
+    // Fetch token on page load and store in localStorage
+    async function fetchToken() {
+      try {
+        const response = await fetch(`${backendUrl}/api/v1/auth/gettoken`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            "ip":"test"
+          }), // Send required body if applicable
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          const token = responseData.token; // Adjust this if the token field is different
+          localStorage.setItem("authToken", token);
+          console.log("Token saved to localStorage:", token);
+        } else {
+          console.error("Failed to fetch token. Status:", response.status);
+        }
+      } catch (err) {
+        console.error("Error fetching token:", err);
+      }
+    }
+
+    // Call fetchToken on page load
+    window.onload = fetchToken;
+
+    // Add event listener to the form
     document.getElementById("email-form").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      
       const email = document.getElementById("recipient").value;
       const name = document.getElementById("subject").value;
       const comment = document.getElementById("message_text").value;
 
-      if ( !email || !name || !comment) {
+      if (!email || !name || !comment) {
         alert("All fields are required!");
         return;
       }
 
-      const emailRequest = {email, name, comment };
-
-      const backendUrl =  "https://arunsp03.pythonanywhere.com";
+      const emailRequest = { email, name, comment };
+      const token = localStorage.getItem("authToken");
 
       try {
         const response = await fetch(`${backendUrl}/api/v1/sendmail`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add the token to the Authorization header
+          },
           body: JSON.stringify(emailRequest),
         });
 
@@ -58,4 +88,4 @@
     });
   </script>
 </body>
-</html>     
+</html>
