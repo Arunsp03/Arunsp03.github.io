@@ -8,9 +8,9 @@
 <body>
   <h1>Send Email</h1>
   <form id="email-form">
-    <label>Recipient: <input type="email" id="recipient" required></label><br>
-    <label>Subject: <input type="text" id="subject" required></label><br>
-    <label>Message: <textarea id="message_text" required></textarea></label><br>
+    <label>Recipient: <input type="email" id="email" required></label><br>
+    <label>Subject: <input type="text" id="name" required></label><br>
+    <label>Message: <textarea id="comment" required></textarea></label><br>
     <button type="submit">Send Email</button>
   </form>
 
@@ -23,9 +23,7 @@
         const response = await fetch(`${backendUrl}/api/v1/auth/gettoken`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            "ip":"test"
-          }), // Send required body if applicable
+     
         });
 
         if (response.ok) {
